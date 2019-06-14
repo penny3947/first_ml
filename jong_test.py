@@ -55,16 +55,17 @@ y_test3 = np.array(y_test2)
 
 # 2. 모델 구성하기
 model = Sequential()
-model.add(Dense(64, input_dim=14, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(10, activation='softmax'))
+model.add(Dense(64, input_dim=14, activation='softmax'))
+#model.add(Dense(64, activation='relu'))
+#model.add(Dense(32, activation='softmax'))
+model.add(Dense(9, activation='softmax'))
 #model.add(Dense(38, input_dim=14, activation='softmax'))
 
 # 3. 모델 학습과정 설정하기
 model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # 4. 모델 학습시키기
-hist = model.fit(x_train3, y_train3, epochs=50, batch_size=16)
+hist = model.fit(x_train3, y_train3, epochs=50, batch_size=64)
 
 # 5. 학습과정 살펴보기
 fig, loss_ax = plt.subplots()
@@ -87,5 +88,5 @@ acc_ax.legend(loc='lower left')
 plt.show()
 
 # 6. 모델 평가하기
-loss_and_metrics = model.evaluate(x_test3, y_test3, batch_size=16)
+loss_and_metrics = model.evaluate(x_test3, y_test3, batch_size=64)
 print('loss_and_metrics : ' + str(loss_and_metrics))
