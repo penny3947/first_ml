@@ -19,9 +19,14 @@ for xt in x_train:
 
     x_train2.append(temp_x)
 
+x_train3 = np.array(x_train2)
+
 ## 요금제 명칭을 숫자로 변경
-for ytr, trp in enumerate(y_train):
-    y_train[ytr] = pp.index(trp)
+y_train2 = []
+for trp in y_train:
+    y_train2.append(pp.index(trp))
+
+y_train3 = np.array(y_train2)
 
 
 # test 데이터셋 생성
@@ -29,7 +34,6 @@ test_set = np.genfromtxt("jong_test", delimiter=",", dtype="str", replace_space=
 x_test = test_set[:, 1:]
 y_test = test_set[:, :1]
 
-"""
 ## input factor를 float로 변경
 x_test2 = []
 for xtt in x_test:
@@ -38,16 +42,20 @@ for xtt in x_test:
         temp_x.append(float(xttt))
 
     x_test2.append(temp_x)
-"""
+
+x_test3 = np.array(x_test2)
 
 ## 요금제 명칭을 숫자로 변경
-for yts, tsp in enumerate(y_test):
-    y_test[yts] = pp.index(tsp)
+y_test2 = []
+for tsp in y_test:
+    y_test2.append(pp.index(tsp))
+
+y_test3 = np.array(y_test2)
+
 
 # 2. 모델 구성하기
 model = Sequential()
 model.add(Dense(64, input_dim=14, activation='relu'))
-model.add(Dense(64, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(10, activation='softmax'))
 #model.add(Dense(38, input_dim=14, activation='softmax'))
@@ -56,7 +64,7 @@ model.add(Dense(10, activation='softmax'))
 model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # 4. 모델 학습시키기
-hist = model.fit(x_train2, y_train, epochs=10, batch_size=64)
+hist = model.fit(x_train3, y_train3, epochs=50, batch_size=16)
 
 # 5. 학습과정 살펴보기
 fig, loss_ax = plt.subplots()
@@ -79,5 +87,5 @@ acc_ax.legend(loc='lower left')
 plt.show()
 
 # 6. 모델 평가하기
-loss_and_metrics = model.evaluate(x_test2, y_test, batch_size=10)
+loss_and_metrics = model.evaluate(x_test3, y_test3, batch_size=16)
 print('loss_and_metrics : ' + str(loss_and_metrics))
